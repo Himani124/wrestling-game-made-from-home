@@ -34,7 +34,7 @@ public class Game {
 			}
 		}
 		
-		/*
+		
 		System.out.println("Player one cards are: ");
 		for (int i=0; i < playerOneCards.size(); i++) {
 			System.out.println(playerOneCards.get(i).toString());
@@ -44,19 +44,46 @@ public class Game {
 		for (int i=0; i < playerTwoCards.size(); i++) {
 			System.out.println(playerTwoCards.get(i).toString());
 		}
-		*/
 		
-		int lastIndexOne = playerOneCards.size() - 1;
-		int lastIndexTwo = playerTwoCards.size() - 1;
-		System.out.println("Details of the card that is given to you are: ");
-		System.out.println(playerOneCards.get(lastIndex).getDetails());
+		while ((playerOneCards.size()!=0) || (playerTwoCards.size()!=0)) {	
+			
+			int lastIndexOne = playerOneCards.size() - 1;
+			int lastIndexTwo = playerTwoCards.size() - 1;
+			
+			System.out.println("Details of the card given to you are: ");
+			System.out.println(playerOneCards.get(lastIndexOne).getDetails());
 		
-		int userChoice = inputProvider.getInt("Enter the attribute you want to play on: \n1. Rank\n2. Height\n3. Weight1");
-		System.out.println("You Entered: " + userChoice);
+			int userChoice = inputProvider.getInt("Enter the attribute you want to play on: \n1. Rank\n2. Height\n3. Weight");
 		
-		play(playerOneCards.get(lastIndexOne) , playerTwoCards.get(lastIndexTwo), userChoice);
+			int whoWon = Score.play(playerOneCards.get(lastIndexOne) , playerTwoCards.get(lastIndexTwo), userChoice);
 		
+			if(whoWon == 1) {
+				System.out.println("You have won this time.");
+				Wrestler tempWrestler = playerTwoCards.remove(lastIndexTwo);
+				playerOneCards.add(tempWrestler);
+			}
 		
+			else if(whoWon == 2) {
+				System.out.println("Computer won this time.");
+				Wrestler tempWrestler = playerOneCards.remove(lastIndexOne);
+				playerTwoCards.add(tempWrestler);
+			}
+		
+			else {
+				System.out.println("Invalid Choice.");
+				continue;
+			}
+			
+		}
+		
+		System.out.println("This was a great game!");
+		if (playerOneCards.size() == 0) {
+			System.out.println("But oops! looks like computer has won!.. Good luck next time");
+		}
+		
+		if (playerTwoCards.size() == 0) {
+			System.out.println("Wow! Congratulations! You have defeated the computer. You played Beautifully..");
+		}
 	}
 
 }
