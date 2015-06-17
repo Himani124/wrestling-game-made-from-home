@@ -1,34 +1,61 @@
 package in.wrestling;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
+	
+	private static InputProvider inputProvider = new InputProvider();
 
 	public static void main(String[] args) {
 		
-		Wrestler wrestler1 = new Wrestler(1, "Undertaker", 2, 6.0, 80.0, 44, 12);
-		Wrestler wrestler2 = new Wrestler(2, "Batista", 1, 5.11, 84.0, 40, 9);
-		Wrestler wrestler3 = new Wrestler(3, "Big Daddy", 6, 5.10, 100.0, 30, 18);
-		Wrestler wrestler4 = new Wrestler(4, "HHH", 4, 6.1, 85.0, 55, 15);
-		Wrestler wrestler5 = new Wrestler(5, "Punk", 7, 6.1, 69.0, 29, 12);
-		Wrestler wrestler6 = new Wrestler(6, "John Cena", 3, 6.1, 76.5, 42, 8);
-		Wrestler wrestler7 = new Wrestler(7, "Khali", 5, 6.3, 89.0, 25, 14);
-		
-		Wrestler myWrestler[] = {wrestler1,wrestler2,wrestler3,wrestler4,wrestler5,wrestler6,wrestler7};
-		Wrestler yourWrestler[] = {wrestler1,wrestler2,wrestler3,wrestler4,wrestler5,wrestler6,wrestler7};
-		
-		for (int ctr=0; ctr<7; ctr++) {
-			System.out.print(myWrestler[ctr].toString());
-			System.out.println();
-		}
-		
+		/*
 		try {
 		wrestler1.setMatchesWon(44);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		*/
 		
-		System.out.println("Choose any player with ID from 1 to 7: ");
+		List<Wrestler> wrestlers = Wrestler.defaultDeck();
+		
+		Collections.shuffle(wrestlers);
+		
+		List<Wrestler> playerOneCards = new ArrayList<Wrestler>();
+		List<Wrestler> playerTwoCards = new ArrayList<Wrestler>();
+		
+		for (int index=0; index < wrestlers.size(); index++){
+			if(index % 2 == 0) {
+				playerOneCards.add(wrestlers.get(index));
+			} else {
+				playerTwoCards.add(wrestlers.get(index));
+			}
+		}
+		
+		/*
+		System.out.println("Player one cards are: ");
+		for (int i=0; i < playerOneCards.size(); i++) {
+			System.out.println(playerOneCards.get(i).toString());
+		}
+		System.out.println();
+		System.out.println("Player two cards are: ");
+		for (int i=0; i < playerTwoCards.size(); i++) {
+			System.out.println(playerTwoCards.get(i).toString());
+		}
+		*/
+		
+		int lastIndexOne = playerOneCards.size() - 1;
+		int lastIndexTwo = playerTwoCards.size() - 1;
+		System.out.println("Details of the card that is given to you are: ");
+		System.out.println(playerOneCards.get(lastIndex).getDetails());
+		
+		int userChoice = inputProvider.getInt("Enter the attribute you want to play on: \n1. Rank\n2. Height\n3. Weight1");
+		System.out.println("You Entered: " + userChoice);
+		
+		play(playerOneCards.get(lastIndexOne) , playerTwoCards.get(lastIndexTwo), userChoice);
+		
 		
 	}
 
